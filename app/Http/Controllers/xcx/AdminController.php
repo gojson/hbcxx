@@ -25,7 +25,8 @@ class AdminController extends LoginBaseController{
      */
     public function registerList(Request $req){
         try{
-            $list = \App\Models\Register::where('stat',$req->input('stat'))->where('admin','<>',\App\Models\Register::IS_ADMIN)->orderBy('id','desc')->get()->toArray();
+            $field = "id,name,tel,position,company";
+            $list = \App\Models\Register::select($field)->where('stat',$req->input('stat'))->where('admin','<>',\App\Models\Register::IS_ADMIN)->orderBy('id','desc')->get()->toArray();
             return webReturn(200,"ok",['list'=>$list]);
         }catch (\Exception $e){
             return webReturn(-1,$e->getMessage());

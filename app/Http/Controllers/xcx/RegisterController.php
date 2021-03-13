@@ -5,7 +5,6 @@
  * Date: 2021/3/3 Time: 11:45 上午
  * 注册员工
  ****************************************************/
-use app\Http\Controllers\xcx\OpenBaseController;
 use Illuminate\Http\Request;
 use Services\Validation\RegisterValidator;
 
@@ -37,6 +36,9 @@ class RegisterController extends WxLoginBaseController {
             $this->_validator->validate( $input );
             if(\App\Models\Register::where('tel','=',$input['tel'])->exists()){
                 throw new \Exception("该手机号已被注册");
+            }
+            if(!\App\Models\ComUser::where('tel','=',$input['tel'])->exists()){
+                throw new \Exception("该手机号不属于公司员工");
             }
             $id = \App\Models\Register::create($input);
             if(!$id){
@@ -73,7 +75,7 @@ class RegisterController extends WxLoginBaseController {
                 throw new \Exception("账号尚未通过审核");
             }
             $this->setLogin($req,$find['id']);
-            return webReturn(200,'登录成功');
+            return webReturn(200,'登录成功',['is_admin'=>$find->is_admin]);
         } catch ( \Services\Exceptions\ValidationException $e ) {
             return webReturn(-1,$e->get_errors()->first());
         }

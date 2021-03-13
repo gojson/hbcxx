@@ -4,9 +4,10 @@ use Illuminate\Database\Eloquent\Model;
 /***************************************************
  * Created by PhpStorm.
  * Author: json -- chenyuanliang@zmeng123.com
- * Date: 2021/3/3 Time: 11:09 上午
+ * Date: 2021/3/13 Time: 1:25 下午
  *
  ****************************************************/
-class Company extends Model{
+class News extends Model{
+    protected $table = "hb_news";
 
 }

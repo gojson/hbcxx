@@ -51,7 +51,26 @@ class RecController extends \app\Http\Controllers\xcx\LoginBaseController{
     public function recList(Request $req){
         try{
             $list = \App\Models\Rec::where('stat',$req->input('stat'))->order('id','desc')->get()->toArray();
+            foreach($list as $k=>$val){
+                $list[$k]['stat_text'] = \app\Models\Rec::statMapList()[$val['stat']];
+            }
             return webReturn(200,"ok",['list'=>$list]);
+        }catch (\Exception $e){
+            return webReturn(-1,$e->getMessage());
+        }
+    }
+
+    /**
+     * 被推荐人stat
+     * author: chenyuanliang
+     * $param
+     * @param \Illuminate\Http\Request $req
+     * @return \Illuminate\Http\JsonResponse|\think\response\Json
+     * @return
+     */
+    public function recStat(Request $req){
+        try{
+            return webReturn(200,"ok",['list'=>\app\Models\Rec::statMapList()]);
         }catch (\Exception $e){
             return webReturn(-1,$e->getMessage());
         }

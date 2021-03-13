@@ -9,4 +9,13 @@ class Rec extends \Illuminate\Database\Eloquent\Model{
 
     protected $guarded = [];
 
+    public  static function statMapList(){
+        $map = [
+            0 => "待审核",
+            1 => '已审核',
+            2 => "跟进中",
+            3 => "成交",
+        ];
+        return $map;
+    }
 }
