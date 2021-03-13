@@ -47,11 +47,13 @@ class RegisterController extends WxLoginBaseController {
             return webReturn(200,'创建成功');
         } catch ( \Services\Exceptions\ValidationException $e ) {
             return webReturn(-1,$e->get_errors()->first());
+        } catch ( \Exception $e ) {
+            return webReturn(-1,$e->getMessage());
         }
-    }
+}
 
-    /**
-     * 登录
+/**
+ * 登录
      * author: chenyuanliang
      * $param
      * @param \Illuminate\Http\Request $req
@@ -62,6 +64,12 @@ class RegisterController extends WxLoginBaseController {
     public function login(Request $req){
         try {
             $input = $req->all();
+            if(!isset($input['tel'])){
+                throw new \Exception("请填写账号");
+            }
+            if(!isset($input['pwd'])){
+                throw new \Exception("请填写密码");
+            }
             $where = [
                 ['openid','=',$this->_openid],
                 ['tel','=',$input['tel']],
@@ -75,9 +83,9 @@ class RegisterController extends WxLoginBaseController {
                 throw new \Exception("账号尚未通过审核");
             }
             $this->setLogin($req,$find['id']);
-            return webReturn(200,'登录成功',['is_admin'=>$find->is_admin]);
-        } catch ( \Services\Exceptions\ValidationException $e ) {
-            return webReturn(-1,$e->get_errors()->first());
+            return webReturn(200,'登录成功',['is_admin'=>$find->admin]);
+        }  catch ( \Exception $e ) {
+            return webReturn(-1,$e->getMessage());
         }
     }
 
@@ -88,5 +96,6 @@ class RegisterController extends WxLoginBaseController {
 
     public function logout(){
         session()->flush();
+        return webReturn(200,'已退出登录');
     }
 }

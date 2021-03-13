@@ -15,6 +15,9 @@ class LoginAuth
     public function handle($request, Closure $next)
     {
         $loginRegId = session('reg_id');
+        if(!$loginRegId){
+            return webReturn(403,'未登录');
+        }
         $regInfo = \App\Models\Register::where('id','=',$loginRegId)->first();
         if(!$regInfo || $regInfo->stat !== \App\Models\Register::STAT_SUC){
             return webReturn(403,'无权限');

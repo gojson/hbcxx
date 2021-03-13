@@ -43,8 +43,6 @@ class User extends Model
         'email_verified_at' => 'datetime',
     ];
 
-
-
     public function genLoginToken($appId, $openId){
         $hashKey = config("consts.LOGIN_TOKEN_HASH_KEY");
         $uniqId  = uniqid();

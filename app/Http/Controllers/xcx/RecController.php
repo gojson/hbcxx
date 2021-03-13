@@ -7,7 +7,7 @@
  ****************************************************/
 use Services\Validation\RecValidator;
 use \Illuminate\Http\Request;
-class RecController extends \app\Http\Controllers\xcx\LoginBaseController{
+class RecController extends \App\Http\Controllers\xcx\LoginBaseController{
 
     protected $_validator = "";
 
@@ -37,6 +37,8 @@ class RecController extends \app\Http\Controllers\xcx\LoginBaseController{
             return webReturn(200,'创建成功');
         } catch ( \Services\Exceptions\ValidationException $e ) {
             return webReturn(-1,$e->get_errors()->first());
+        }catch ( \Exception $e ) {
+            return webReturn(-1,$e->getMessage());
         }
     }
 
@@ -50,7 +52,7 @@ class RecController extends \app\Http\Controllers\xcx\LoginBaseController{
      */
     public function recList(Request $req){
         try{
-            $list = \App\Models\Rec::where('stat',$req->input('stat'))->order('id','desc')->get()->toArray();
+            $list = \App\Models\Rec::where('stat',$req->input('stat'))->orderBy('id','desc')->get()->toArray();
             foreach($list as $k=>$val){
                 $list[$k]['stat_text'] = \app\Models\Rec::statMapList()[$val['stat']];
             }
