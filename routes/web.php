@@ -33,7 +33,7 @@ Route::namespace('App\Http\Controllers\xcx')->group(function () {
 //不登录路由
 Route::namespace('App\Http\Controllers\xcx')->middleware(['web'])->group(function () {
     Route::any('/common/index', 'CommonController@index');//首页信息
-    Route::any('/common/news/', 'CommonController@news');//新闻列表
+    Route::any('/common/news', 'CommonController@news');//新闻列表
     Route::any('/common/intro', 'CommonController@intro');//简介
 });
 
