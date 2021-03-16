@@ -5,6 +5,10 @@ namespace App\Exceptions;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
 class Handler extends ExceptionHandler
 {
     /**
@@ -37,5 +41,18 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+
+    public function render($request, Throwable $exception)
+    {
+
+        // 如果不被允许的路由
+        if ($exception instanceof MethodNotAllowedHttpException || $exception instanceof NotFoundHttpException) {
+            if (!($request->ajax() || $request->wantsJson())) {
+                return response()->view('error_404',['exception'=>"页面或方法不存在"]);
+            }
+        }
+        return parent::render($request, $exception);
     }
 }
