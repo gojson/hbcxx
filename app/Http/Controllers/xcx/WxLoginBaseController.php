@@ -13,9 +13,10 @@ class WxLoginBaseController extends Controller{
 
     public function __construct(Request $baseReq)
     {
-        //$this->_checkLogin($baseReq);
-        $this->_openid = '123';
-        $this->_uid = 1;
+        addLog($baseReq);
+        $this->_checkLogin($baseReq);
+        #$this->_openid = '123';
+        #$this->_uid = 1;
     }
 
     public function _checkLogin($baseReq){

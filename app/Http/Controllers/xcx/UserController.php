@@ -95,7 +95,7 @@ class UserController extends \App\Http\Controllers\xcx\WxLoginBaseController{
             $userInfo = \App\Models\User::where('openid','=',$this->_openid)->first();
             return webReturn(200,'ok',['userInfo'=>$userInfo]);
         }catch (\Exception $e){
-            return webReturn(403,$e->getMessage());
+            return webReturn(-1,$e->getMessage());
         }
     }
 }

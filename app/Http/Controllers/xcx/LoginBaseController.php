@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 class LoginBaseController extends Controller{
     public function __construct(Request $baseReq)
     {
-
+        addLog($baseReq);
 
     }
 
