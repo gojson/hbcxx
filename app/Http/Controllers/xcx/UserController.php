@@ -1,4 +1,4 @@
-<?php namespace \App\Http\Controllers\xcx;
+<?php namespace App\Http\Controllers\xcx;
 /***************************************************
  * Created by PhpStorm.
  * Author: json -- chenyuanliang@zmeng123.com
@@ -78,6 +78,22 @@ class UserController extends \App\Http\Controllers\xcx\WxLoginBaseController{
             ];
             \app\Models\User::where('id','=',$user->id)->update($update);
             return webReturn(200,'ok');
+        }catch (\Exception $e){
+            return webReturn(403,$e->getMessage());
+        }
+    }
+
+    /**
+     * 读取用户信息
+     * author: chenyuanliang
+     * $param
+     * @param \Illuminate\Http\Request $req
+     * @return
+     */
+    public function getUserInfo(Request $req){
+        try{
+            $userInfo = \App\Models\User::where('openid','=',$this->_openid)->first();
+            return webReturn(200,'ok',['userInfo'=>$userInfo]);
         }catch (\Exception $e){
             return webReturn(403,$e->getMessage());
         }
