@@ -25,6 +25,7 @@ Route::namespace('App\Http\Controllers\xcx')->middleware(['web'])->group(functio
 
 //wx不登录路由
 Route::namespace('App\Http\Controllers\xcx')->group(function () {
+    Route::any('/wx/login/tokenAvaliable', 'WxLoginController@tokenAvaliable');//登录
     Route::any('/wx/login/login', 'WxLoginController@login');//登录
     Route::any('/wx/user/saveAuth', 'UserController@saveAuth');//登录
     Route::any('/wx/user/saveTel', 'UserController@saveTel');//

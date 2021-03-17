@@ -65,5 +65,4 @@ class CommonController extends Controller{
             return webReturn(-1,$e->getMessage());
         }
     }
-
 }

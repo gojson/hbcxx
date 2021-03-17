@@ -1,5 +1,7 @@
 <?php namespace App\Http\Controllers\xcx;
-	/***************************************************
+	use Illuminate\Http\Request;
+
+    /***************************************************
 	 * Created by PhpStorm.
 	 * Author: json -- chenyuanliang@zmeng123.com
 	 * Date: 2021/2/28 Time: 1:20 下午
@@ -54,6 +56,32 @@ class WxLoginController extends \App\Http\Controllers\Controller{
             return webReturn(200,'ok',$resData);
         }catch (\Exception $e){
             return webReturn(403,$e->getMessage());
+        }
+    }
+
+
+    /**
+     * 检查token是否可用
+     * author: chenyuanliang
+     * $param
+     * @return
+     */
+    public function tokenAvaliable(Request $req){
+        try{
+            $token = $req->header("token","");
+            if(!$token){
+                throw new \Exception("token不能为空");
+            }
+            $userInfo = \App\Models\User::where("token",'=',$token)->first();
+            if(empty($userInfo)){
+                throw new \Exception("token已过期");
+            }
+            if((time()-strtotime($userInfo['updated_at'])<3600)){
+                throw new \Exception("token已过期,请重新登录");
+            }
+            return webReturn(200,"ok",['login'=>true]);
+        }catch (\Exception $e){
+            return webReturn(-1,$e->getMessage(),['login'=>false]);
         }
     }
 }
