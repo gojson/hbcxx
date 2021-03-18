@@ -29,6 +29,8 @@ Route::namespace('App\Http\Controllers\xcx')->group(function () {
     Route::any('/wx/login/login', 'WxLoginController@login');//登录
     Route::any('/wx/user/saveAuth', 'UserController@saveAuth');//登录
     Route::any('/wx/user/saveTel', 'UserController@saveTel');//
+    Route::any('/wx/user/getUserInfo', 'UserController@getUserInfo');//读取用户信息
+
 });
 
 //不登录路由
