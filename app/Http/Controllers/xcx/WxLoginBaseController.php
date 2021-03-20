@@ -24,7 +24,7 @@ class WxLoginBaseController extends Controller{
         $sig = $baseReq->header('sig');
         $dump = $baseReq->header('dump');
         if ($token && $sig && checkSignature($token, $sig, $dump)) {
-            $userInfo = \App\Models\User::where("token",$token)->find();
+            $userInfo = \App\Models\User::where("token",$token)->first();
             if(!empty($userInfo)){
                 $this->_openid = $userInfo->openid;
                 $this->_uid = $userInfo->id;
