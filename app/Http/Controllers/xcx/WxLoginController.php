@@ -40,21 +40,31 @@ class WxLoginController extends \App\Http\Controllers\Controller{
             }
             $openId     = $resArr['openid'];
             $userModel = new \App\Models\User();
+            $user = \App\Models\User::where('openid','=',$openId)->first();
             $token = $userModel->genLoginToken($appId, $openId);
-            $suc = \App\Models\User::updateOrCreate(['openid'=>$openId],[
-                'appid' => $appId,
-                'openid'=> $resArr['openid'],
-                'token' => $userModel->genLoginToken($appId, $openId),
-                'session_key' => $resArr['session_key'],
-                'updated_at'    => date("Y-m-d H:i:s"),
-            ]);
+            if($user){//更新
+                $suc = $user->where('openid','=',$openId)->update([
+                    'appid' => $appId,
+                    'openid'=> $openId,
+                    'token' => $token,
+                    'session_key' => $resArr['session_key'],
+                    'updated_at'    => date("Y-m-d H:i:s"),
+                ]);
+            }else{
+                $userModel = new \App\Models\User();
+                $userModel->appid = $appId;
+                $userModel->openid = $openId;
+                $userModel->token = $token;
+                $userModel->updated_at = date("Y-m-d H:i:s");
+                $userModel->save();
+            }
             if(!$suc){
                 throw new \Exception("update error");
             }
             $sig = generalSignature($token);
             $user = \App\Models\User::where('openid','=',$openId)->first();
             $resData = [
-                'token'     => $user->token,
+                'token'     => $token,
                 'sig'       => $sig,
                 'tel'       => $user->tel,
                 'headimgurl'=> $user->headimgurl,
