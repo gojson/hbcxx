@@ -39,13 +39,20 @@ class WxLoginController extends \App\Http\Controllers\Controller{
                 throw new \Exception("openid error");
             }
             $openId     = $resArr['openid'];
-            $user = new \app\Models\User;
-            $user->appid = $appId;
-            $user->openid = $resArr['openid'];
-            $user->token = $user->genLoginToken($appId, $openId);
-            $user->session_key = $resArr['session_key'];
-            $user->save();
-            $sig = generalSignature($user->token);
+            $userModel = new \App\Models\User();
+            $token = $userModel->genLoginToken($appId, $openId);
+            $suc = \App\Models\User::updateOrCreate(['openid'=>$openId],[
+                'appid' => $appId,
+                'openid'=> $resArr['openid'],
+                'token' => $userModel->genLoginToken($appId, $openId),
+                'session_key' => $resArr['session_key'],
+                'updated_at'    => date("Y-m-d H:i:s"),
+            ]);
+            if(!$suc){
+                throw new \Exception("update error");
+            }
+            $sig = generalSignature($token);
+            $user = \App\Models\User::where('openid','=',$openId)->first();
             $resData = [
                 'token'     => $user->token,
                 'sig'       => $sig,
