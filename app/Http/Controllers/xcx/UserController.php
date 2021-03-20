@@ -18,7 +18,7 @@ class UserController extends \App\Http\Controllers\xcx\WxLoginBaseController{
             ['openid','=',$this->_openid],
         ];
         $field = 'appid,session_key,old_session_key';
-        $user      = \app\Models\User::select($field)->where($where)->first();
+        $user      = \App\Models\User::select($field)->where($where)->first();
         $appId         = $user->appid;
         $sessionKey    = $user->session_key;
         if( $appId && $sessionKey ){
@@ -47,7 +47,7 @@ class UserController extends \App\Http\Controllers\xcx\WxLoginBaseController{
     public function saveAuth(Request $req){
         try{
             $field          = "appid,session_key";
-            $user           = \app\Models\User::select($field)->where('openid','=',$this->_openid)->first();
+            $user           = \App\Models\User::select($field)->where('openid','=',$this->_openid)->first();
             $appId          = $user->appid;
             $sessionKey     = $user->session_key;
             if( !$appId || !$sessionKey ) {
@@ -76,7 +76,7 @@ class UserController extends \App\Http\Controllers\xcx\WxLoginBaseController{
                 'language'   => $userInfo['language'],
                 'updated_at' => date('Y-m-d H:i:s'),
             ];
-            \app\Models\User::where('id','=',$user->id)->update($update);
+            \App\Models\User::where('id','=',$user->id)->update($update);
             return webReturn(200,'ok');
         }catch (\Exception $e){
             return webReturn(403,$e->getMessage());
