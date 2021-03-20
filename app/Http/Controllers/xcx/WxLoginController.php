@@ -21,7 +21,7 @@ class WxLoginController extends \App\Http\Controllers\Controller{
             if( !$appId || !$code ) {
                 throw new \Exception("appid or code not exist");
             }
-            $appInfo = \App\Models\AppInfo::where("appid",'=',$appId)->find();
+            $appInfo = \App\Models\AppInfo::where("appid",'=',$appId)->first();
             if(!$appInfo->appsecret){
                 throw new \Exception("appsecret not exist");
             }
