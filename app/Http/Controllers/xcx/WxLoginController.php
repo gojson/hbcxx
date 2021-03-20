@@ -25,7 +25,7 @@ class WxLoginController extends \App\Http\Controllers\Controller{
             if(!$appInfo->appsecret){
                 throw new \Exception("appsecret not exist");
             }
-            $url = "https://api.weixin.qq.com/sns/jscode2session?appid={$appId}&secret={$appInfo->appSecret}&js_code={$code}&grant_type=authorization_code";
+            $url = "https://api.weixin.qq.com/sns/jscode2session?appid={$appId}&secret={$appInfo->appsecret}&js_code={$code}&grant_type=authorization_code";
             $res = file_get_contents($url);
             // 2. 解析并获
             $resArr = json_decode($res, true);
