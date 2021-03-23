@@ -87,16 +87,16 @@ class WxLoginController extends \App\Http\Controllers\Controller{
         try{
             $token = $req->header("token","");
             if(!$token){
-                throw new \Exception("token不能为空");
+                $userInfo = \App\Models\User::where("token",'=',$token)->first();
+                if(empty($userInfo)){
+                    throw new \Exception("token已过期");
+                }
+                if((time()-strtotime($userInfo['updated_at'])<3600)){
+                    throw new \Exception("token已过期,请重新登录");
+                }
+                return webReturn(200,"ok",['login'=>true]);
             }
-            $userInfo = \App\Models\User::where("token",'=',$token)->first();
-            if(empty($userInfo)){
-                throw new \Exception("token已过期");
-            }
-            if((time()-strtotime($userInfo['updated_at'])<3600)){
-                throw new \Exception("token已过期,请重新登录");
-            }
-            return webReturn(200,"ok",['login'=>true]);
+            return webReturn(200,"无效",['login'=>false]);
         }catch (\Exception $e){
             return webReturn(-1,$e->getMessage(),['login'=>false]);
         }
