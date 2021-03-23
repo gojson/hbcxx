@@ -68,8 +68,8 @@ function decryptData($encryptedData, $iv, $sessionKey, $appId, &$data){
 }
 
 if(!function_exists('webReturn')){
-    function webReturn($status=0,$msg='成功',$data=[],$code=200){
-        return response()->json(['status'=>$status,'msg'=>$msg,'data'=>$data],$code,[],256);
+    function webReturn($statusCode=0,$msg='成功',$data=[],$code=200){
+        return response()->json(['statusCode'=>$statusCode,'msg'=>$msg,'data'=>$data],$code,[],256);
     }
 }
 

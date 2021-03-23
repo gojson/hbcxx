@@ -46,7 +46,7 @@ class UserController extends \App\Http\Controllers\xcx\WxLoginBaseController{
      * */
     public function saveAuth(Request $req){
         try{
-            $field          = ["appid","session_key"];
+            $field          = ["id","appid","session_key"];
             $user           = \App\Models\User::select($field)->where('openid','=',$this->_openid)->first();
             $appId          = $user->appid;
             $sessionKey     = $user->session_key;
