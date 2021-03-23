@@ -35,10 +35,10 @@ class RegisterController extends WxLoginBaseController {
             }
             $this->_validator->validate( $input );
             if(\App\Models\Register::where('tel','=',$input['tel'])->exists()){
-                throw new \Exception("该手机号已被注册");
+                throw new \Exception("该员工号已被注册");
             }
             if(!\App\Models\ComUser::where('tel','=',$input['tel'])->exists()){
-                throw new \Exception("该手机号不属于公司员工");
+                throw new \Exception("该员工号不属于公司员工");
             }
             $id = \App\Models\Register::create($input);
             if(!$id){
@@ -65,7 +65,7 @@ class RegisterController extends WxLoginBaseController {
         try {
             $input = $req->all();
             if(!isset($input['tel'])){
-                throw new \Exception("请填写账号");
+                throw new \Exception("请填写工号");
             }
             if(!isset($input['pwd'])){
                 throw new \Exception("请填写密码");
@@ -77,10 +77,10 @@ class RegisterController extends WxLoginBaseController {
             ];
             $find = \App\Models\Register::where($where)->first();
             if(!$find){
-                throw new \Exception("账号或密码错误");
+                throw new \Exception("工号或密码错误");
             }
             if($find['stat']!= \App\Models\Register::STAT_SUC){
-                throw new \Exception("账号尚未通过审核");
+                throw new \Exception("工号尚未通过审核");
             }
             $this->setLogin($req,$find['id']);
             return webReturn(200,'登录成功',['is_admin'=>$find->admin]);
