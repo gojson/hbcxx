@@ -83,7 +83,7 @@ class RegisterController extends WxLoginBaseController {
                 throw new \Exception("工号尚未通过审核");
             }
             $this->setLogin($req,$find['id']);
-            return webReturn(200,'登录成功',['is_admin'=>$find->admin]);
+            return webReturn(200,'登录成功');
         }  catch ( \Exception $e ) {
             return webReturn(-1,$e->getMessage());
         }
