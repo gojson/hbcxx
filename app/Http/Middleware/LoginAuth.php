@@ -21,7 +21,7 @@ class LoginAuth
             header('Content-Type:application/json');
             return webReturn(403,'无权限');
         }
-        $request->merge(['reg_id'=>$regInfo->id]);
+        $request->merge(['reg_id'=>$regInfo->id,'isAdmin'=>$regInfo->admin==1?true:false]);
         return $next($request);
     }
 }

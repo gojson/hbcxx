@@ -52,7 +52,15 @@ class RecController extends \App\Http\Controllers\xcx\LoginBaseController{
      */
     public function recList(Request $req){
         try{
-            $list = \App\Models\Rec::where('stat',$req->input('stat'))->orderBy('id','desc')->get()->toArray();
+            $stat = $req->input('stat',-1);//-1全部
+            $where = [];
+            if(!$req->isAdmin){//非管理员
+                $where[] = ['reg_id','=',$req->input('reg_id')];
+            }
+            if($stat>=0){
+                $where[] = ['stat','=',$stat];
+            }
+            $list = \App\Models\Rec::where($where)->orderBy('id','desc')->get()->toArray();
             foreach($list as $k=>$val){
                 $list[$k]['stat_text'] = \app\Models\Rec::statMapList()[$val['stat']];
             }
