@@ -30,7 +30,16 @@ class RecController extends \App\Http\Controllers\xcx\LoginBaseController{
                 throw new \Exception("此客户已被推荐过,不能重复推荐");
             }
             $this->_validator->validate( $input );
-            $id = \App\Models\Rec::create($input);
+            $recInfo = [
+                'name'          => $input['name'],
+                'tel'           =>  $input['tel'],
+                'position'      => $input['position'],
+                'company'       => $input['company'],
+                'num'           => $input['num'],
+                'want'          => $input['want'],
+                'remark'        => $input['remark'],
+            ];
+            $id = \App\Models\Rec::create($recInfo);
             if(!$id){
                 throw new \Exception("创建失败");
             }
