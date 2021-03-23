@@ -15,7 +15,7 @@ class UserController extends \App\Http\Controllers\xcx\WxLoginBaseController{
      * */
     public function saveTel(Request $req){
         $where = [
-            ['openid','=',$this->_openid],
+            ['openid','=',$req->input("openid")],
         ];
         $field = 'appid,session_key,old_session_key';
         $user      = \App\Models\User::select($field)->where($where)->first();
@@ -47,7 +47,7 @@ class UserController extends \App\Http\Controllers\xcx\WxLoginBaseController{
     public function saveAuth(Request $req){
         try{
             $field          = ["id","appid","session_key"];
-            $user           = \App\Models\User::select($field)->where('openid','=',$this->_openid)->first();
+            $user           = \App\Models\User::select($field)->where('openid','=',$req->input('openid'))->first();
             $appId          = $user->appid;
             $sessionKey     = $user->session_key;
             if( !$appId || !$sessionKey ) {
@@ -92,16 +92,7 @@ class UserController extends \App\Http\Controllers\xcx\WxLoginBaseController{
      */
     public function getUserInfo(Request $req){
         try{
-            $userInfo = \App\Models\User::where('openid','=',$this->_openid)->first();
-            $registerInfo = [];
-            if(session('reg_id')){
-                $where = [
-                    ['id','=',session('reg_id')],
-                ];
-                $registerInfo = \App\Models\Register::where($where)->first();
-            }
-            $userInfo->isLogin = session('reg_id')?true:false;
-            $userInfo->isAdmin = (!empty($registerInfo) && $registerInfo->admin==1) ? true : false;
+            $userInfo = \App\Models\User::where('openid','=',$req->input('openid'))->first();
             return webReturn(200,'ok',[
                 'userInfo'=>$userInfo,
                 ]);

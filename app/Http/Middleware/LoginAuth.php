@@ -14,18 +14,14 @@ class LoginAuth
 {
     public function handle($request, Closure $next)
     {
-        $loginRegId = session('reg_id');
-        if(!$loginRegId){
-            header('HTTP/1.1 403 Forbidden');
-            header('Content-Type:application/json');
-            return webReturn(403,'未登录');
-        }
-        $regInfo = \App\Models\Register::where('id','=',$loginRegId)->first();
+        $openid = $request->input('openid');
+        $regInfo = \App\Models\Register::where('openid','=',$openid)->first();
         if(!$regInfo || $regInfo->stat !== \App\Models\Register::STAT_SUC){
             header('HTTP/1.1 403 Forbidden');
             header('Content-Type:application/json');
             return webReturn(403,'无权限');
         }
+        $request->merge(['reg_id'=>$regInfo->id]);
         return $next($request);
     }
 }

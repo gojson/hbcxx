@@ -15,22 +15,10 @@ class WxLoginBaseController extends Controller{
     {
         addLog($baseReq);
         $this->_checkLogin($baseReq);
-        #$this->_openid = '123';
-        #$this->_uid = 1;
     }
 
     public function _checkLogin($baseReq){
-        $token = $baseReq->header('token');
-        $sig = $baseReq->header('sig');
-        $dump = $baseReq->header('dump');
-        if ($token && $sig && checkSignature($token, $sig, $dump)) {
-            $userInfo = \App\Models\User::where("token",$token)->first();
-            if(!empty($userInfo)){
-                $this->_openid = $userInfo->openid;
-                $this->_uid = $userInfo->id;
-                return true;
-            }
-        }
-        $this->_exit403();
+        $this->_openid = $baseReq->input('openid','');
+        $this->_uid = $baseReq->input('uid','');
     }
 }
