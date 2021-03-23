@@ -100,10 +100,10 @@ class UserController extends \App\Http\Controllers\xcx\WxLoginBaseController{
                 ];
                 $registerInfo = \App\Models\Register::where($where)->first();
             }
+            $userInfo->isLogin = session('reg_id')?true:false;
+            $userInfo->isAdmin = (!empty($registerInfo) && $registerInfo->admin==1) ? true : false;
             return webReturn(200,'ok',[
                 'userInfo'=>$userInfo,
-                'isLogin'=>session('reg_id')?true:false,
-                'isAdmin'=> (!empty($registerInfo) && $registerInfo->admin==1) ? true : false,
                 ]);
         }catch (\Exception $e){
             return webReturn(-1,$e->getMessage());
