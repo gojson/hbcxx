@@ -45,4 +45,5 @@ Route::namespace('App\Http\Controllers\xcx')->middleware(['web','wxloginauth','r
 Route::namespace('App\Http\Controllers\xcx')->middleware(['web','wxloginauth','registerloginauth','adminauth'])->group(function () {
     Route::any('/admin/regList', 'AdminController@registerList');//注册列表
     Route::any('/admin/checkRec', 'AdminController@checkRec');//修改推荐人状态
+    Route::any('/admin/recInfo', 'AdminController@recInfo');//推荐人信息
 });

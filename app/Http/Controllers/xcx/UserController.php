@@ -93,8 +93,16 @@ class UserController extends \App\Http\Controllers\xcx\WxLoginBaseController{
     public function getUserInfo(Request $req){
         try{
             $userInfo = \App\Models\User::where('openid','=',$req->input('openid'))->first();
+            $regId = $req->input('reg_id');
+            if($regId){
+                $where = [
+                    ['id','=',$regId],
+                ];
+                $registerInfo = \App\Models\Register::where($where)->first();
+            }
             return webReturn(200,'ok',[
-                'userInfo'=>$userInfo,
+                'userInfo'=> $userInfo,
+                'isAdmin' =>(!empty($registerInfo) && $registerInfo->admin==1) ? true : false,
                 ]);
         }catch (\Exception $e){
             return webReturn(-1,$e->getMessage());

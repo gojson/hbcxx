@@ -12,9 +12,10 @@ class Rec extends \Illuminate\Database\Eloquent\Model{
     public  static function statMapList(){
         $map = [
             0 => "待审核",
-            1 => '已审核',
-            2 => "跟进中",
-            3 => "成交",
+            1 => '拒绝',
+            2 => "意向",
+            3 => "预付",
+            4 => "成交",
         ];
         return $map;
     }

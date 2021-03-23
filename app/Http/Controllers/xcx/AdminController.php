@@ -61,6 +61,22 @@ class AdminController extends LoginBaseController{
         }
     }
 
+    /**
+     * 推荐人信息
+     * author: chenyuanliang
+     * $param
+     * @param \Request $req
+     * @return \Illuminate\Http\JsonResponse|\think\response\Json
+     * @return
+     */
+    public function recInfo(Request $req){
+        try{
+            $recInfo = \App\Models\Rec::where('id',$req->input('id'))->first();
+            return webReturn(200,"ok",['recInfo'=>$recInfo]);
+        }catch (\Exception $e){
+            return webReturn(-1,$e->getMessage());
+        }
+    }
 
     /**
      * 审核推荐人

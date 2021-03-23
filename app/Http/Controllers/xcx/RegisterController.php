@@ -30,7 +30,7 @@ class RegisterController extends WxLoginBaseController {
             $input = $req->all();
             $input['openid'] = $req->input('openid',"");
             $input['uid'] = $req->input("uid",0);
-            if(\App\Models\Register::where('openid','=',$this->_openid)->exists()){
+            if(\App\Models\Register::where('openid','=',$req->input('openid',''))->exists()){
                 throw new \Exception("此微信已注册,不能重复注册");
             }
             $this->_validator->validate( $input );
@@ -71,7 +71,7 @@ class RegisterController extends WxLoginBaseController {
                 throw new \Exception("请填写密码");
             }
             $where = [
-                ['openid','=',$this->_openid],
+                ['openid','=',$req->input('openid')],
                 ['tel','=',$input['tel']],
                 ['pwd','=',$input['pwd']],
             ];
