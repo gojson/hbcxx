@@ -18,28 +18,6 @@ class CommonController extends Controller{
      */
     public function index(){
         try{
-            $openId = 123666;
-            $userModel = new \App\Models\User();
-            $user = \App\Models\User::where("openid",'=',$openId)->first();
-            if($user){
-                $suc = $user->where('openid','=',$openId)->update([
-                    'appid' => 111,
-                    'openid'=> $openId,
-                    'token' => 111,//$userModel->genLoginToken(111, $openId),
-                    'session_key' => 1211,
-                    'updated_at'    => date("Y-m-d H:i:s"),
-                ]);
-            }else{
-                $userModel = new \App\Models\User();
-                $userModel->appid = 111;
-                $userModel->openid = $openId;
-                $userModel->token = 111223;
-                $userModel->updated_at = date("Y-m-d H:i:s");
-                $userModel->save();
-            }
-
-            die;
-
             $bannerList = \App\Models\IndexBanner::where('id','>',0)->orderBy('id','desc')->get()->toArray();
             $introList = \App\Models\IndexIntro::where('id','>',0)->orderBy('id','desc')->get()->toArray();
             $data = [
