@@ -86,19 +86,19 @@ class WxLoginController extends \App\Http\Controllers\Controller{
     public function tokenAvaliable(Request $req){
         try{
             $token = $req->header("token","");
-            if(!$token){
+            if($token){
                 $userInfo = \App\Models\User::where("token",'=',$token)->first();
                 if(empty($userInfo)){
                     throw new \Exception("token已过期");
                 }
                 if((time()-strtotime($userInfo['updated_at'])<3600)){
-                    throw new \Exception("token已过期,请重新登录");
+                    return webReturn(200,"token已过期,请重新登录",['login'=>false]);
                 }
                 return webReturn(200,"ok",['login'=>true]);
             }
             return webReturn(200,"无效",['login'=>false]);
         }catch (\Exception $e){
-            return webReturn(-1,$e->getMessage(),['login'=>false]);
+            return webReturn(200,$e->getMessage(),['login'=>false]);
         }
     }
 }
