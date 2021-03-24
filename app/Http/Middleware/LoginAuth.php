@@ -14,8 +14,8 @@ class LoginAuth
 {
     public function handle($request, Closure $next)
     {
-        $openid = $request->input('openid');
-        $regInfo = \App\Models\Register::where('openid','=',$openid)->first();
+        $regId = $request->header('reg_id',0);
+        $regInfo = \App\Models\Register::where('id','=',$regId)->first();
         if(!$regInfo || $regInfo->stat !== \App\Models\Register::STAT_SUC){
             header('HTTP/1.1 403 Forbidden');
             header('Content-Type:application/json');

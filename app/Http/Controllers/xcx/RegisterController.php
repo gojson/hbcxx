@@ -28,11 +28,6 @@ class RegisterController extends WxLoginBaseController {
         try {
             $this->_validator = $validator;
             $input = $req->all();
-            $input['openid'] = $req->input('openid',"");
-            $input['uid'] = $req->input("uid",0);
-            if(\App\Models\Register::where('openid','=',$req->input('openid',''))->exists()){
-                throw new \Exception("此微信已注册,不能重复注册");
-            }
             $this->_validator->validate( $input );
             if(\App\Models\Register::where('tel','=',$input['tel'])->exists()){
                 throw new \Exception("该员工号已被注册");
@@ -71,7 +66,6 @@ class RegisterController extends WxLoginBaseController {
                 throw new \Exception("请填写密码");
             }
             $where = [
-                ['openid','=',$req->input('openid')],
                 ['tel','=',$input['tel']],
                 ['pwd','=',$input['pwd']],
             ];
@@ -82,7 +76,7 @@ class RegisterController extends WxLoginBaseController {
             if($find['stat']!= \App\Models\Register::STAT_SUC){
                 throw new \Exception("工号尚未通过审核");
             }
-            return webReturn(200,'登录成功',["isLogin"=>true,'isAdmin'=>$find->admin?true:false]);
+            return webReturn(200,'登录成功',["reg_id"=>$find['reg_id']]);
         }  catch ( \Exception $e ) {
             return webReturn(-1,$e->getMessage());
         }

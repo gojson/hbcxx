@@ -25,12 +25,13 @@ class RecController extends \App\Http\Controllers\xcx\LoginBaseController{
     public function store(Request $req){
         try {
             $input = $req->all();
-            $input['reg_id'] = $req->input('reg_id',0);
+            $regId = $req->input('reg_id',0);
             if(\App\Models\Rec::where('tel','=',$input['tel'])->exists()){
                 throw new \Exception("此客户已被推荐过,不能重复推荐");
             }
             $this->_validator->validate( $input );
             $recInfo = [
+                'reg_id'        => $regId,
                 'name'          => $input['name'],
                 'tel'           =>  $input['tel'],
                 'position'      => $input['position'],
