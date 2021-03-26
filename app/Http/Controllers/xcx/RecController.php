@@ -63,6 +63,7 @@ class RecController extends \App\Http\Controllers\xcx\LoginBaseController{
     public function recList(Request $req){
         try{
             $stat = $req->input('stat',-1);//-1全部
+            $tel = $req->input("tel","");
             $where = [];
             if(!$req->isAdmin){//非管理员
                 $where[] = ['reg_id','=',$req->input('reg_id')];
@@ -70,7 +71,13 @@ class RecController extends \App\Http\Controllers\xcx\LoginBaseController{
             if($stat>=0){
                 $where[] = ['stat','=',$stat];
             }
+            if($tel){
+                $where[] = ['tel','like',"%".$tel."%"];
+            }
             $list = \App\Models\Rec::where($where)->orderBy('id','desc')->get()->toArray();
+            if(!empty($tel) && empty($list)){//搜索内容不存在
+                throw new \Exception("搜索手机号不存在");
+            }
             foreach($list as $k=>$val){
                 $list[$k]['stat_text'] = \app\Models\Rec::statMapList()[$val['stat']];
             }
@@ -95,4 +102,23 @@ class RecController extends \App\Http\Controllers\xcx\LoginBaseController{
             return webReturn(-1,$e->getMessage());
         }
     }
+    
+    
+    /**
+     * 推荐人信息
+     * author: chenyuanliang
+     * $param
+     * @param \Request $req
+     * @return \Illuminate\Http\JsonResponse|\think\response\Json
+     * @return
+     */
+    public function recInfo(Request $req){
+        try{
+            $recInfo = \App\Models\Rec::where('id',$req->input('rec_id'))->first();
+            return webReturn(200,"ok",['recInfo'=>$recInfo]);
+        }catch (\Exception $e){
+            return webReturn(-1,$e->getMessage());
+        }
+    }
+    
 }

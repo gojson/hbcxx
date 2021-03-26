@@ -71,7 +71,7 @@ class AdminController extends LoginBaseController{
      */
     public function recInfo(Request $req){
         try{
-            $recInfo = \App\Models\Rec::where('id',$req->input('id'))->first();
+            $recInfo = \App\Models\Rec::where('id',$req->input('rec_id'))->first();
             return webReturn(200,"ok",['recInfo'=>$recInfo]);
         }catch (\Exception $e){
             return webReturn(-1,$e->getMessage());
@@ -87,7 +87,7 @@ class AdminController extends LoginBaseController{
     public function checkRec(Request $req){
         try{
             $recId = $req->input('rec_id');
-            $recInfoCheck = \App\Models\Rec::where('admin','<>',1)->find($recId);
+            $recInfoCheck = \App\Models\Rec::find($recId);
             if(!$recInfoCheck){
                 throw new \Exception("用户不存在");
             }

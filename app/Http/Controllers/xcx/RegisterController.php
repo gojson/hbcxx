@@ -76,7 +76,7 @@ class RegisterController extends WxLoginBaseController {
             if($find['stat']!= \App\Models\Register::STAT_SUC){
                 throw new \Exception("工号尚未通过审核");
             }
-            return webReturn(200,'登录成功',["reg_id"=>$find['reg_id']]);
+            return webReturn(200,'登录成功',["regId"=>$find['id'],"isAdmin"=>$find['admin']==1?true:false]);
         }  catch ( \Exception $e ) {
             return webReturn(-1,$e->getMessage());
         }

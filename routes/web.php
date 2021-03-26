@@ -40,10 +40,10 @@ Route::namespace('App\Http\Controllers\xcx')->middleware(['web','wxloginauth','r
     Route::any('/rec/store', 'RecController@store');//添加推荐人
     Route::any('/rec/recList', 'RecController@recList');//推荐列表
     Route::any('/rec/statList', 'RecController@statList');//推荐状态列表
+    Route::any('/rec/recInfo', 'RecController@recInfo');//推荐人信息
 });
 #管理员
 Route::namespace('App\Http\Controllers\xcx')->middleware(['web','wxloginauth','registerloginauth','adminauth'])->group(function () {
     Route::any('/admin/regList', 'AdminController@registerList');//注册列表
     Route::any('/admin/checkRec', 'AdminController@checkRec');//修改推荐人状态
-    Route::any('/admin/recInfo', 'AdminController@recInfo');//推荐人信息
 });
