@@ -13,9 +13,11 @@ class RegisterValidator extends Validator
      * @var array Validation rules for the test form, they can contain in-built Laravel rules or our custom rules
      */
     protected $rules = array(
-        #'name' => 'required|between:2,10',
-        'tel' => array('required', 'numeric', 'digits_between:1,11'),
+        'name' => 'required|between:2,10',
+        'contact_tel' => array('required', 'numeric', 'digits_between:11,11'),//手机号
+        'tel' => array('required', 'numeric', 'digits_between:1,11'),//工号
         'pwd' => array('required', 'alpha_dash', 'between:6,32'),
+        'department' => array('required', 'between:2,128'),//部门
         #'company' => array('required', 'between:2,128'),
         #'position' => array('required', 'alpha_dash', 'between:2,32'),
         );
@@ -23,12 +25,17 @@ class RegisterValidator extends Validator
     protected $messages =
         [
             'name.required' => '姓名必填',
+            'contact_tel.required'  => '手机号必填',
+            'contact_tel.numeric'  => '手机号必须是数字',
+            'contact_tel.digits_between'  => '手机号长度必须11位',
             #'name.between'  => '姓名长度2~10位',
             'tel.required'  => '员工号必填',
             'tel.numeric'  => '员工号必须是数字',
             'tel.digits_between'  => '员工号号长度0~11位',
             'pwd.required'  => "密码必填",
             'pwd.between'  => "密码长度6~32位",
+            'department.required'  => "职位必填",
+            'department.between'  => "职位长度2~32位",
             #'position.required'  => "职位必填",
             #'position.between'  => "职位长度2~32位",
             #'company.required'  => "公司必填",

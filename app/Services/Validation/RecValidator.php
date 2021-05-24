@@ -19,6 +19,7 @@ class RecValidator extends Validator
         'company' => array('required', 'between:2,128'),
         'num'       => array('required','numeric','min:1'),
         'want'       => array('required'),
+        'visit_time'       => array('required'),
     );
 
     protected $messages =

@@ -39,6 +39,7 @@ class RecController extends \App\Http\Controllers\xcx\LoginBaseController{
                 'num'           => $input['num'],
                 'want'          => $input['want'],
                 'remark'        => $input['remark'],
+                'visit_time'    => $input['visit_time'],//到访时间
             ];
             $id = \App\Models\Rec::create($recInfo);
             if(!$id){
@@ -102,8 +103,8 @@ class RecController extends \App\Http\Controllers\xcx\LoginBaseController{
             return webReturn(-1,$e->getMessage());
         }
     }
-    
-    
+
+
     /**
      * 推荐人信息
      * author: chenyuanliang
@@ -120,5 +121,5 @@ class RecController extends \App\Http\Controllers\xcx\LoginBaseController{
             return webReturn(-1,$e->getMessage());
         }
     }
-    
+
 }

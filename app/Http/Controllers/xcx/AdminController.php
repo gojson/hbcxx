@@ -32,7 +32,7 @@ class AdminController extends LoginBaseController{
             if($stat>=0){
                 $where[] = ['stat','=',$stat];
             }
-            $field = ["id","name","tel","position","company"];
+            $field = ["id","name","tel","position","company","contact_tel","department"];
             $list = \App\Models\Register::select($field)->where($where)->where($where)->orderBy('id','desc')->get()->toArray();
             return webReturn(200,"ok",['list'=>$list]);
         }catch (\Exception $e){

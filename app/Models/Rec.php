@@ -16,6 +16,9 @@ class Rec extends \Illuminate\Database\Eloquent\Model{
             2 => "意向",
             3 => "预付",
             4 => "成交",
+            5 => "认购",
+            6 => "签约",
+            7 => "全款到账",
         ];
         return $map;
     }
